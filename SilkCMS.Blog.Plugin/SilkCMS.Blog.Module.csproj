@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.SDK.Razor">
+
+    <PropertyGroup>
+        <Company>SilkCMS</Company>
+        <Copyright>Yaros Roman</Copyright>
+        <Description>SilkCMS Blog</Description>
+        <Product>SilkCMS Blog</Product>
+        <AssemblyTitle>Blog</AssemblyTitle>
+        <Version>1.0.0</Version>
+    </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SilkCMS.Extentions.Core\SilkCMS.Core.Modules.csproj" />
+  </ItemGroup>
+
+<Target Name="CopyToProject" AfterTargets="AfterBuild">
+  <Copy SourceFiles="$(TargetDir)$(MSBuildProjectName).dll" DestinationFolder="$(SolutionDir)SilkCMS.Web\Modules\$(MSBuildProjectName)" SkipUnchangedFiles="true" Retries="0" />
+  <Message Text="Copied @(MainAssembly) to $(DEVPATH)" />
+</Target>
+  
+</Project>

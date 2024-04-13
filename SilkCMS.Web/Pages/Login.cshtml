@@ -1,0 +1,91 @@
+﻿@page
+@model LoginModel
+
+@{
+  ViewData["Title"] = "Log in";
+  Layout = null;
+}
+
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<!DOCTYPE html>
+<!-- Coding by CodingLab | www.codinglabweb.com-->
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Responsive Login and Signup Form </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/login.css">
+
+  <!-- Boxicons CSS -->
+  <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+
+</head>
+
+<body>
+  <section class="container forms">
+    <div class="form login">
+      <div class="form-content">
+        <header>@Localizer["Login"]</header>
+        <form id="account" method="post">
+          <div class="field input-field">
+            <input type="email" asp-for="Input.Email" autocomplete="username" aria-required="true"
+              placeholder="name@example.com">
+          </div>
+
+          <div class="field input-field">
+            <input type="password" asp-for="Input.Password" class="password" autocomplete="current-password"
+              aria-required="true" placeholder="password">
+            <i class='bx bx-hide eye-icon'></i>
+          </div>
+
+          <div class="">
+            <label asp-for="Input.RememberMe" class="form-label">
+              <input class="form-check-input" asp-for="Input.RememberMe" />
+              @Localizer[Html.DisplayNameFor(m => m.Input.RememberMe)]
+            </label>
+
+          </div>
+
+          <div class="form-link">
+            <a href="#" class="forgot-pass">@Localizer["Forgot password?"]</a>
+          </div>
+
+          <div class="field button-field">
+            <button>Login</button>
+          </div>
+        </form>
+
+        <div class="form-link">
+          <span>@Localizer["Don't have an account?"] <a href="#" class="link signup-link">@Localizer["Signup"]</a></span>
+        </div>
+      </div>
+
+      <div class="line"></div>
+
+      <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post"
+        class="form-horizontal">
+
+        @foreach (var provider in Model.ExternalLogins!)
+        {
+          <div class="media-options">
+             <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name"
+              title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+          </div>
+
+        }
+      </form>
+
+    </div>
+  </section>
+
+  <!-- JavaScript -->
+  <script src="js/script.js"></script>
+</body>
+
+</html>
