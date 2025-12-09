@@ -22,17 +22,26 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SilkCMS.Extentions.Core\SilkCMS.Core.Modules.csproj" />
+    <ProjectReference Include="..\SilkCMS.Abstractions\SilkCMS.Abstractions.csproj" />
     <ProjectReference Include="..\SilkCMS.Data\SilkCMS.Data.csproj" />
+    <ProjectReference Include="..\SilkCMS.Core\SilkCMS.Core.csproj" />
   </ItemGroup>
 
   <Target Name="CopyToProject" AfterTargets="AfterBuild">
-    <Copy SourceFiles="$(TargetDir)$(MSBuildProjectName).dll" DestinationFolder="$(SolutionDir)SilkCMS.Web\Modules\$(MSBuildProjectName)" SkipUnchangedFiles="true" Retries="0" />
+    <Copy SourceFiles="$(TargetDir)$(MSBuildProjectName).dll" DestinationFolder="$(TargetDir)\..\..\..\..\SilkCMS.Web\Modules\$(MSBuildProjectName)" SkipUnchangedFiles="true" Retries="0" />
     <Message Text="Copied @(MainAssembly) to $(DEVPATH)" />
   </Target>
 
   <ItemGroup>
     <EmbeddedResource Include="wwwroot\**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Shared\Components\MenuItemComponent\DropdownItemDropdown.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Shared\Components\MenuItemComponent\DropdownItemDropdown.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

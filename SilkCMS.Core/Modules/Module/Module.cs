@@ -14,5 +14,6 @@ public class ModuleInfo : IModuleInfo
 
     public Exception Exception { get; set; }
     public IModule Module { get ; set; }
+    public IModuleMenuBuilder ModuleMenuBuilder { get ; set; }
 }
 

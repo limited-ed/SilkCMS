@@ -133,8 +133,44 @@
     <value>У вас нет аккаунта?</value>
     <comment/>
   </data>
-  <data name="Signup" xml:space="preserve">
+  <data name="Sign up" xml:space="preserve">
     <value>Зарегистрироваться</value>
+    <comment/>
+  </data>
+  <data name="Email address" xml:space="preserve">
+    <value>EMail</value>
+    <comment/>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Пароль</value>
+    <comment/>
+  </data>
+  <data name="I forgot password" xml:space="preserve">
+    <value>Я забыл пароль</value>
+    <comment/>
+  </data>
+  <data name="Remember me on this device" xml:space="preserve">
+    <value>Запомнить меня</value>
+    <comment/>
+  </data>
+  <data name="Sign in" xml:space="preserve">
+    <value>Вход</value>
+    <comment/>
+  </data>
+  <data name="Don't have account yet?" xml:space="preserve">
+    <value>У вас еще нет учетной записи?</value>
+    <comment/>
+  </data>
+  <data name="Show password" xml:space="preserve">
+    <value>Показать пароль</value>
+    <comment/>
+  </data>
+  <data name="Your password" xml:space="preserve">
+    <value>Ваш пароль</value>
+    <comment/>
+  </data>
+  <data name="Sign in with" xml:space="preserve">
+    <value>Войти с помощью</value>
     <comment/>
   </data>
 </root>

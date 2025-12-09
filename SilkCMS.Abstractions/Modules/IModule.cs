@@ -25,10 +25,4 @@ public interface IModule
         {
             /* Do your application configurations  */
         }
-
-
-        public void MapEntities(ModelBuilder builder)
-        {
-
-        }
 }

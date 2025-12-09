@@ -27,14 +27,19 @@ public class ModuleLoader : IModuleLoader
                 var startup = assembly.GetExportedTypes().FirstOrDefault(t => t.GetInterfaces().Any( a => a == typeof(IModule)));
                 if (startup is not null)
                 {
-                    list.Add(new ModuleInfo()
+
+                    var moduleInfo =new ModuleInfo()
                     {
                         Assembly = assembly,
                         Name = assembly.GetCustomAttribute<AssemblyTitleAttribute>()?.Title??"",
                         AssemblyName = assembly.FullName??"",
                         Module = (IModule)Activator.CreateInstance(startup)
-                    });                    
+                    };       
+
+
+                    list.Add(moduleInfo);             
                 }
+
             }
             catch (System.Exception ex)
             {

@@ -17,12 +17,21 @@ public static class ModulesConfigureEx
         var mm = ModuleManager.Current;
         mm.LoadModules(path);
 
+        
+        foreach (var module in mm.ModulesInfo)
+        {
+            var menuBuilderType = module.Assembly.GetExportedTypes().FirstOrDefault(t => t.GetInterfaces().Any(a => a == typeof(IModuleMenuBuilder)));
+            if (menuBuilderType is not null)
+            {
+                builder.Services.AddTransient(typeof(IModuleMenuBuilder), menuBuilderType);
+            }
+        }
         builder.ConfigureApplicationPartManager(apm =>
         {
             foreach (var module in mm.ModulesInfo)
             {
                 var parts = new ConsolidatedAssemblyApplicationPartFactory().GetApplicationParts(module.Assembly);
-                foreach(var part in parts )
+                foreach (var part in parts)
                 {
                     apm.ApplicationParts.Add(part);
                 }

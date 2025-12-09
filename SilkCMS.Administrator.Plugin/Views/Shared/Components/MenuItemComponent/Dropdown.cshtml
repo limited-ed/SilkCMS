@@ -1,0 +1,23 @@
+@model IMenuNode
+
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#navbar-help" data-bs-toggle="dropdown" data-bs-auto-close="false"
+        role="button" aria-expanded="false">
+@if (!String.IsNullOrEmpty(Model.Icon))
+{    
+        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                <i class="ti ti-@Model.Icon"></i>
+        </span>
+} 
+        <span class="nav-link-title">
+            @Model.Title
+        </span>
+    </a>
+    <div class="dropdown-menu">
+@foreach(var node in @Model.MenuNodes)
+{
+    @await Component.InvokeAsync("MenuItemComponent",new {menuNode = node})
+}
+
+    </div>
+</li>

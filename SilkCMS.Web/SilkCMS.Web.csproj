@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <PreserveCompilationContext>false</PreserveCompilationContext>
@@ -29,7 +29,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SilkCMS.Core\SilkCMS.Core.csproj" />
     <ProjectReference Include="..\SilkCMS.Data\SilkCMS.Data.csproj" />
-    <ProjectReference Include="..\SilkCMS.Extentions.Core\SilkCMS.Core.Modules.csproj" /> 
+    <ProjectReference Include="..\SilkCMS.Abstractions\SilkCMS.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

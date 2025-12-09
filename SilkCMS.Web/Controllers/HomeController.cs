@@ -1,5 +1,8 @@
 using System.Diagnostics;
+using System.Reflection;
+using System.Runtime.Loader;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using SilkCMS.Web.Models;
 
 namespace SilkCMS.Web.Controllers;
@@ -7,10 +10,12 @@ namespace SilkCMS.Web.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly IConfiguration _configuration;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
     {
         _logger = logger;
+        _configuration = configuration;
     }
 
     public IActionResult Index()
@@ -19,6 +24,11 @@ public class HomeController : Controller
     }
 
     public IActionResult Privacy()
+    {
+        return View();
+    }
+
+    public IActionResult Load([FromServices]ApplicationPartManager apm)
     {
         return View();
     }

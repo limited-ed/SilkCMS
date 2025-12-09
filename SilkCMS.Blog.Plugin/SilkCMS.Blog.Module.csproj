@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SilkCMS.Extentions.Core\SilkCMS.Core.Modules.csproj" />
+    <ProjectReference Include="..\SilkCMS.Abstractions\SilkCMS.Abstractions.csproj" />
   </ItemGroup>
 
 <Target Name="CopyToProject" AfterTargets="AfterBuild">

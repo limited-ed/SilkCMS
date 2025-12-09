@@ -1,0 +1,15 @@
+@model IMenuNode
+
+<div class="dropend">
+    <a class="dropdown-item dropdown-toggle" href="#sidebar-cards" data-bs-toggle="dropdown" data-bs-auto-close="false"
+        role="button" aria-expanded="false">
+        @Model.Title
+        <span class="badge badge-sm bg-green-lt text-uppercase ms-auto">New</span>
+    </a>
+    <div class="dropdown-menu">
+@foreach(var node in @Model.MenuNodes)
+{
+    @await Component.InvokeAsync("MenuItemComponent",new {menuNode = node})
+}
+    </div>
+</div>

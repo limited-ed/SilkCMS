@@ -9,4 +9,5 @@ public interface IModuleInfo
     Assembly Assembly { get; }
     Exception Exception {get;}
     IModule Module {get; set;} 
+    IModuleMenuBuilder ModuleMenuBuilder{get; set;}
 }
