@@ -29,7 +29,7 @@ builder.Services.AddEmbeddedFiles();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme);
  builder.Services.AddAuthorization( options =>
  {
-    options.AddPolicy("Administartor", p => p.RequireRole("Administrator"));
+    options.AddPolicy("Administrator", p => p.RequireRole("Administrator"));
  });
 
 builder.Services.AddIdentity<User,Role>(options => options.SignIn.RequireConfirmedAccount = false)
@@ -40,21 +40,31 @@ builder.Services.AddIdentity<User,Role>(options => options.SignIn.RequireConfirm
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddRazorPages();
 builder.Services.AddModules();
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Login";
+    options.LogoutPath = "/Logout";
+    options.ExpireTimeSpan = TimeSpan.FromHours(24);
+});
 
 var app = builder.Build();
-
 
 var scope = app.Services.CreateScope();
 
 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
+if (!roleManager.Roles.Any())
+{
+    var role = new Role();
+    role.Name = "Administrator";
+    await roleManager.CreateAsync(role);
+}
 if (!userManager.Users.Any())
 {
     var user=new User() { UserName="admin@site.com"};
    var result = await userManager.CreateAsync(user, "Qazplm-1");
-
+   await userManager.AddToRoleAsync(user, "Administrator");
 }
-
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -68,7 +78,7 @@ else
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 var supportedCultures = new[]
             {
@@ -94,7 +104,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
-
-
 
 app.Run();

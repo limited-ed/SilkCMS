@@ -4,13 +4,13 @@
     <Company>SilkCMS</Company>
     <Copyright>Yaros Roman</Copyright>
     <Description>SilkCMS Administrator</Description>
-    <Product>SilkCMS Administrator</Product>
-    <AssemblyTitle>Blog</AssemblyTitle>
+    <Product>SilkCMS Administration</Product>
+    <AssemblyTitle>Administration</AssemblyTitle>
     <Version>1.0.0</Version>
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
@@ -36,7 +36,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="8.0.3" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="9.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="Areas\Private\Pages\Shared\_Layout.cshtml" />
   </ItemGroup>
 
 </Project>
