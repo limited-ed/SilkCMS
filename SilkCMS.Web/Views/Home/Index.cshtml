@@ -1,8 +1,747 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    Layout = null;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html lang="ru" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KortexCMS - Мощная .NET система управления контентом</title>
+    <!-- Tailwind CSS v4 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                        },
+                        accent: {
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                        },
+                        cortex: {
+                            blue: '#2563eb',
+                            purple: '#7c3aed',
+                            teal: '#0d9488'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s ease-in-out infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Иконки -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .logo-gradient {
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .dark .logo-gradient {
+            background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e40af 0%, #5b21b6 100%);
+        }
+        .dark .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #4c1d95 100%);
+        }
+        .feature-icon {
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
+        }
+        .theme-toggle {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+    <!-- Навигация -->
+    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <!-- Логотип -->
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-xl gradient-bg flex items-center justify-center shadow-md">
+                    <div class="text-white font-bold text-xl">K</div>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold logo-gradient">Kortex<span class="text-gray-700 dark:text-gray-300">CMS</span></h1>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Powered by .NET</p>
+                </div>
+            </div>
+            
+            <!-- Меню -->
+            <div class="hidden md:flex space-x-8">
+                <a href="#features" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors">Возможности</a>
+                <a href="#architecture" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors">Архитектура</a>
+                <a href="#benefits" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors">Преимущества</a>
+                <a href="#demo" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors">Демо</a>
+            </div>
+            
+            <!-- Кнопки -->
+            <div class="flex items-center space-x-4">
+                <!-- Переключатель темы -->
+                <button id="theme-toggle" class="theme-toggle w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                    <i id="sun-icon" class="fas fa-sun text-yellow-500"></i>
+                    <i id="moon-icon" class="fas fa-moon text-blue-500 hidden"></i>
+                </button>
+                
+                <!-- Кнопка CTA -->
+                <button class="bg-primary-600 hover:bg-primary-700 dark:bg-primary-500 dark:hover:bg-primary-600 text-white font-medium py-2.5 px-6 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg">
+                    Начать бесплатно
+                </button>
+            </div>
+            
+            <!-- Мобильное меню -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-700 dark:text-gray-300">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+        
+        <!-- Мобильное меню -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white dark:bg-gray-800 px-4 py-3 shadow-lg border-t dark:border-gray-700">
+            <a href="#features" class="block py-3 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 border-b dark:border-gray-700">Возможности</a>
+            <a href="#architecture" class="block py-3 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 border-b dark:border-gray-700">Архитектура</a>
+            <a href="#benefits" class="block py-3 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 border-b dark:border-gray-700">Преимущества</a>
+            <a href="#demo" class="block py-3 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Демо</a>
+        </div>
+    </nav>
+
+    <!-- Герой-секция -->
+    <section class="gradient-bg text-white overflow-hidden">
+        <div class="container mx-auto px-4 py-20 md:py-28">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-12 md:mb-0">
+                    <div class="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full mb-6">
+                        <span class="text-sm font-medium">Версия 3.0 уже доступна</span>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">Мощная CMS на платформе <span class="text-yellow-300">.NET</span></h2>
+                    <p class="text-xl mb-8 text-gray-100 leading-relaxed">KortexCMS объединяет производительность .NET с удобством современной системы управления контентом. Создавайте, управляйте и масштабируйте ваши проекты без ограничений.</p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button class="bg-white text-primary-700 hover:bg-gray-100 font-bold py-3.5 px-8 rounded-lg text-lg transition-all duration-300 shadow-lg hover:shadow-xl">
+                            <i class="fas fa-rocket mr-2"></i> Начать сейчас
+                        </button>
+                        <button class="bg-transparent border-2 border-white hover:bg-white/10 font-bold py-3.5 px-8 rounded-lg text-lg transition-all duration-300">
+                            <i class="fas fa-play-circle mr-2"></i> Смотреть демо
+                        </button>
+                    </div>
+                    
+                    <!-- Бейджи технологий -->
+                    <div class="mt-12 flex flex-wrap gap-3">
+                        <div class="px-4 py-2 bg-white/10 rounded-lg backdrop-blur-sm">
+                            <span class="font-medium">ASP.NET Core</span>
+                        </div>
+                        <div class="px-4 py-2 bg-white/10 rounded-lg backdrop-blur-sm">
+                            <span class="font-medium">Entity Framework</span>
+                        </div>
+                        <div class="px-4 py-2 bg-white/10 rounded-lg backdrop-blur-sm">
+                            <span class="font-medium">Blazor</span>
+                        </div>
+                        <div class="px-4 py-2 bg-white/10 rounded-lg backdrop-blur-sm">
+                            <span class="font-medium">REST API</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="relative">
+                        <div class="w-80 h-80 bg-white/10 rounded-3xl backdrop-blur-sm flex items-center justify-center animate-float border border-white/20">
+                            <div class="text-center p-8">
+                                <div class="text-7xl mb-6">
+                                    <i class="fas fa-cube"></i>
+                                </div>
+                                <h3 class="text-3xl font-bold mb-2">KortexCMS</h3>
+                                <p class="text-gray-200">.NET Content Management</p>
+                            </div>
+                        </div>
+                        <!-- Декоративные элементы -->
+                        <div class="absolute -top-6 -right-6 w-24 h-24 bg-accent-500/30 rounded-full animate-pulse-slow"></div>
+                        <div class="absolute -bottom-6 -left-6 w-20 h-20 bg-primary-500/30 rounded-full animate-pulse-slow delay-1000"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Возможности -->
+    <section id="features" class="py-20 bg-gray-50 dark:bg-gray-800/50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">Ключевые возможности системы</h2>
+                <p class="text-gray-600 dark:text-gray-300 text-lg max-w-3xl mx-auto">KortexCMS предлагает полный набор инструментов для создания и управления современными веб-проектами</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- DotNet -->
+                <div class="feature-card bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700">
+                    <div class="w-16 h-16 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mb-6">
+                        <i class="fas fa-code text-3xl text-cortex-blue dark:text-blue-400 feature-icon"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Платформа .NET</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-6">Построена на ASP.NET Core, обеспечивая высочайшую производительность, безопасность и масштабируемость.</p>
+                    <ul class="text-gray-600 dark:text-gray-300 space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 dark:text-green-400 mr-3 mt-1"></i>
+                            <span>Высокая производительность и низкая задержка</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 dark:text-green-400 mr-3 mt-1"></i>
+                            <span>Безопасность корпоративного уровня</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 dark:text-green-400 mr-3 mt-1"></i>
+                            <span>Полная поддержка Microsoft экосистемы</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Расширяемость -->
+                <div class="feature-card bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700">
+                    <div class="w-16 h-16 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mb-6">
+                        <i class="fas fa-puzzle-piece text-3xl text-cortex-purple dark:text-purple-400 feature-icon"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Возможность расширения</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-6">Модульная архитектура позволяет легко добавлять новые функции через плагины и расширения.</p>
+                    <ul class="text-gray-600 dark:text-gray-300 space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 dark:text-green-400 mr-3 mt-1"></i>
+                            <span>Модульная архитектура на основе DI</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 dark:text-green-400 mr-3 mt-1"></i>
+                            <span>Библиотека готовых расширений</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 dark:text-green-400 mr-3 mt-1"></i>
+                            <span>REST API для интеграции с внешними системами</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Управление медиа -->
+                <div class="feature-card bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700">
+                    <div class="w-16 h-16 rounded-xl bg-teal-100 dark:bg-teal-900/30 flex items-center justify-center mb-6">
+                        <i class="fas fa-images text-3xl text-cortex-teal dark:text-teal-400 feature-icon"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Управление медиа</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-6">Мощный медиа-менеджер с поддержкой облачных хранилищ и автоматической оптимизацией.</p>
+                    <ul class="text-gray-600 dark:text-gray-300 space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 dark:text-green-400 mr-3 mt-1"></i>
+                            <span>Загрузка и управление файлами любого типа</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 dark:text-green-400 mr-3 mt-1"></i>
+                            <span>Автоматическая оптимизация изображений</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 dark:text-green-400 mr-3 mt-1"></i>
+                            <span>Интеграция с AWS S3, Azure Blob Storage</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Типы контента -->
+                <div class="feature-card bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700">
+                    <div class="w-16 h-16 rounded-xl bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center mb-6">
+                        <i class="fas fa-edit text-3xl text-amber-500 dark:text-amber-400 feature-icon"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Свои типы контента</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-6">Создавайте любые типы контента без программирования через интуитивный интерфейс.</p>
+                    <ul class="text-gray-600 dark:text-gray-300 space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 dark:text-green-400 mr-3 mt-1"></i>
+                            <span>Визуальный конструктор типов контента</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 dark:text-green-400 mr-3 mt-1"></i>
+                            <span>Гибкие настройки полей и валидации</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 dark:text-green-400 mr-3 mt-1"></i>
+                            <span>Наследование и повторное использование</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Права доступа -->
+                <div class="feature-card bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700">
+                    <div class="w-16 h-16 rounded-xl bg-red-100 dark:bg-red-900/30 flex items-center justify-center mb-6">
+                        <i class="fas fa-shield-alt text-3xl text-red-500 dark:text-red-400 feature-icon"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Управление правами доступа</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-6">Гибкая система ролей и разрешений для контроля доступа на всех уровнях.</p>
+                    <ul class="text-gray-600 dark:text-gray-300 space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 dark:text-green-400 mr-3 mt-1"></i>
+                            <span>Ролевая модель доступа (RBAC)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 dark:text-green-400 mr-3 mt-1"></i>
+                            <span>Детальные разрешения для каждого объекта</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 dark:text-green-400 mr-3 mt-1"></i>
+                            <span>Полный аудит действий пользователей</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Производительность -->
+                <div class="feature-card bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700">
+                    <div class="w-16 h-16 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-6">
+                        <i class="fas fa-bolt text-3xl text-green-500 dark:text-green-400 feature-icon"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Высокая производительность</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-6">Оптимизированная архитектура для работы с большими объемами данных.</p>
+                    <ul class="text-gray-600 dark:text-gray-300 space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 dark:text-green-400 mr-3 mt-1"></i>
+                            <span>Кэширование на нескольких уровнях</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 dark:text-green-400 mr-3 mt-1"></i>
+                            <span>Асинхронная обработка запросов</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 dark:text-green-400 mr-3 mt-1"></i>
+                            <span>Оптимизированные запросы к БД</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Архитектура -->
+    <section id="architecture" class="py-20 bg-white dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">Современная архитектура</h2>
+                <p class="text-gray-600 dark:text-gray-300 text-lg max-w-3xl mx-auto">KortexCMS построен на современных технологиях и принципах разработки</p>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/2">
+                    <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 shadow-lg">
+                        <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Технологический стек</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-center p-4 bg-white dark:bg-gray-700 rounded-xl shadow-sm">
+                                <div class="w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mr-4">
+                                    <i class="fab fa-microsoft text-blue-600 dark:text-blue-400 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800 dark:text-white">ASP.NET Core 8</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300">Высокопроизводительный веб-фреймворк</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center p-4 bg-white dark:bg-gray-700 rounded-xl shadow-sm">
+                                <div class="w-12 h-12 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center mr-4">
+                                    <i class="fas fa-database text-green-600 dark:text-green-400 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800 dark:text-white">Entity Framework Core</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300">ORM для работы с базами данных</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center p-4 bg-white dark:bg-gray-700 rounded-xl shadow-sm">
+                                <div class="w-12 h-12 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mr-4">
+                                    <i class="fab fa-blazor text-purple-600 dark:text-purple-400 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800 dark:text-white">Blazor</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300">Интерактивный UI на C#</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center p-4 bg-white dark:bg-gray-700 rounded-xl shadow-sm">
+                                <div class="w-12 h-12 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center mr-4">
+                                    <i class="fas fa-shield-alt text-red-600 dark:text-red-400 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800 dark:text-white">Identity Framework</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300">Аутентификация и авторизация</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/2">
+                    <div class="bg-gradient-to-br from-primary-500 to-accent-600 rounded-2xl p-8 text-white shadow-xl">
+                        <h3 class="text-2xl font-bold mb-6">Принципы архитектуры</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-white/20 flex items-center justify-center mr-4 mt-1">
+                                    <i class="fas fa-layer-group"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg mb-1">Многослойная архитектура</h4>
+                                    <p class="text-white/90">Четкое разделение на Presentation, Application, Domain и Infrastructure слои</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-white/20 flex items-center justify-center mr-4 mt-1">
+                                    <i class="fas fa-cube"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg mb-1">Модульность</h4>
+                                    <p class="text-white/90">Каждая функциональность реализована как независимый модуль</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-white/20 flex items-center justify-center mr-4 mt-1">
+                                    <i class="fas fa-plug"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg mb-1">Dependency Injection</h4>
+                                    <p class="text-white/90">Встроенная поддержка DI для легкого тестирования и расширения</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-white/20 flex items-center justify-center mr-4 mt-1">
+                                    <i class="fas fa-code-branch"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg mb-1">Микросервисная готовность</h4>
+                                    <p class="text-white/90">Архитектура позволяет разделение на микросервисы при необходимости</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Преимущества -->
+    <section id="benefits" class="py-20 bg-gray-50 dark:bg-gray-800/50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">Преимущества KortexCMS</h2>
+                <p class="text-gray-600 dark:text-gray-300 text-lg max-w-3xl mx-auto">Почему разработчики и компании выбирают нашу систему</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg">
+                    <div class="flex items-center mb-6">
+                        <div class="w-14 h-14 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mr-4">
+                            <i class="fas fa-tachometer-alt text-2xl text-cortex-blue dark:text-blue-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800 dark:text-white">Производительность</h3>
+                            <p class="text-gray-600 dark:text-gray-300">В 3-5 раз быстрее PHP-аналогов</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300">Благодаря компилируемому коду .NET и оптимизированной архитектуре, KortexCMS обеспечивает мгновенную загрузку страниц даже при высоких нагрузках.</p>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg">
+                    <div class="flex items-center mb-6">
+                        <div class="w-14 h-14 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center mr-4">
+                            <i class="fas fa-lock text-2xl text-green-500 dark:text-green-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800 dark:text-white">Безопасность</h3>
+                            <p class="text-gray-600 dark:text-gray-300">Защита от OWASP Top 10 уязвимостей</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300">Встроенные механизмы безопасности .NET платформы, регулярные обновления и аудит кода обеспечивают защиту от современных угроз.</p>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg">
+                    <div class="flex items-center mb-6">
+                        <div class="w-14 h-14 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mr-4">
+                            <i class="fas fa-expand-arrows-alt text-2xl text-cortex-purple dark:text-purple-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800 dark:text-white">Масштабируемость</h3>
+                            <p class="text-gray-600 dark:text-gray-300">От маленького блога до корпоративного портала</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300">Архитектура позволяет горизонтальное и вертикальное масштабирование. Поддержка кластеризации и облачных развертываний.</p>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg">
+                    <div class="flex items-center mb-6">
+                        <div class="w-14 h-14 rounded-xl bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center mr-4">
+                            <i class="fas fa-users-cog text-2xl text-amber-500 dark:text-amber-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800 dark:text-white">Для разработчиков</h3>
+                            <p class="text-gray-600 dark:text-gray-300">Полный контроль и кастомизация</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300">Открытая архитектура, подробная документация и API позволяют разработчикам создавать любые расширения и интеграции.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Демо -->
+    <section id="demo" class="py-20 bg-white dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">Попробуйте KortexCMS</h2>
+                <p class="text-gray-600 dark:text-gray-300 text-lg max-w-3xl mx-auto">Убедитесь в удобстве и мощности системы самостоятельно</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto bg-gradient-to-r from-primary-500 to-accent-600 rounded-3xl p-1 shadow-2xl">
+                <div class="bg-white dark:bg-gray-800 rounded-3xl p-8 md:p-12">
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <div class="md:w-1/2">
+                            <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Демо-доступ</h3>
+                            <p class="text-gray-600 dark:text-gray-300 mb-8">Получите полный доступ к демо-версии KortexCMS с административной панелью и всеми функциями. Никаких ограничений на 14 дней.</p>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-center">
+                                    <i class="fas fa-check-circle text-green-500 dark:text-green-400 text-xl mr-3"></i>
+                                    <span class="text-gray-700 dark:text-gray-300">Полный доступ ко всем функциям</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check-circle text-green-500 dark:text-green-400 text-xl mr-3"></i>
+                                    <span class="text-gray-700 dark:text-gray-300">Техническая поддержка включена</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check-circle text-green-500 dark:text-green-400 text-xl mr-3"></i>
+                                    <span class="text-gray-700 dark:text-gray-300">Возможность импорта данных</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-10">
+                                <button class="bg-primary-600 hover:bg-primary-700 dark:bg-primary-500 dark:hover:bg-primary-600 text-white font-bold py-3.5 px-10 rounded-xl text-lg transition-all duration-300 shadow-lg hover:shadow-xl w-full md:w-auto">
+                                    Получить демо-доступ
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="md:w-1/2">
+                            <div class="bg-gray-900 rounded-2xl p-6 shadow-2xl">
+                                <div class="flex items-center mb-6">
+                                    <div class="flex space-x-2">
+                                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                    </div>
+                                    <div class="text-center flex-grow">
+                                        <span class="text-gray-300 font-medium text-sm">Панель управления KortexCMS</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-gray-800 rounded-lg p-4 mb-4">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <div class="text-gray-300 text-sm">Контент</div>
+                                        <div class="text-gray-400 text-xs">5 элементов</div>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <div class="h-2 bg-gray-700 rounded-full w-full"></div>
+                                        <div class="h-2 bg-gray-700 rounded-full w-3/4"></div>
+                                        <div class="h-2 bg-gray-700 rounded-full w-1/2"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-gray-800 rounded-lg p-4 mb-4">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <div class="text-gray-300 text-sm">Медиафайлы</div>
+                                        <div class="text-gray-400 text-xs">124 файла</div>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <div class="h-20 bg-gray-700 rounded-lg"></div>
+                                        <div class="h-20 bg-gray-700 rounded-lg"></div>
+                                        <div class="h-20 bg-gray-700 rounded-lg"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-gray-800 rounded-lg p-4">
+                                    <div class="text-gray-300 text-sm mb-3">Последняя активность</div>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center">
+                                            <div class="w-6 h-6 rounded-full bg-primary-500 mr-2"></div>
+                                            <div class="text-gray-400 text-xs">Пользователь добавил новую страницу</div>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <div class="w-6 h-6 rounded-full bg-green-500 mr-2"></div>
+                                            <div class="text-gray-400 text-xs">Обновлено 5 изображений</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="bg-gray-900 text-gray-400 py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+                <div class="mb-8 md:mb-0">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-lg gradient-bg flex items-center justify-center">
+                            <div class="text-white font-bold text-xl">K</div>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold logo-gradient">Kortex<span class="text-gray-300">CMS</span></h1>
+                            <p class="text-xs text-gray-500">.NET Content Management System</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-500 max-w-md">Мощная система управления контентом на платформе .NET для создания современных, безопасных и масштабируемых веб-проектов.</p>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary-600 transition-colors">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition-colors">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-700 transition-colors">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-red-600 transition-colors">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-sm">© 2023 KortexCMS. Все права защищены.</p>
+                </div>
+                
+                <div class="flex space-x-6 text-sm">
+                    <a href="#" class="hover:text-gray-300 transition-colors">Документация</a>
+                    <a href="#" class="hover:text-gray-300 transition-colors">Блог</a>
+                    <a href="#" class="hover:text-gray-300 transition-colors">Сообщество</a>
+                    <a href="#" class="hover:text-gray-300 transition-colors">Контакты</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Переключение темы
+            const themeToggle = document.getElementById('theme-toggle');
+            const sunIcon = document.getElementById('sun-icon');
+            const moonIcon = document.getElementById('moon-icon');
+            
+            // Проверяем сохраненную тему или системные настройки
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+                document.documentElement.classList.add('dark');
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
+            }
+            
+            themeToggle.addEventListener('click', function() {
+                document.documentElement.classList.toggle('dark');
+                
+                if (document.documentElement.classList.contains('dark')) {
+                    localStorage.setItem('theme', 'dark');
+                    sunIcon.classList.add('hidden');
+                    moonIcon.classList.remove('hidden');
+                } else {
+                    localStorage.setItem('theme', 'light');
+                    sunIcon.classList.remove('hidden');
+                    moonIcon.classList.add('hidden');
+                }
+            });
+            
+            // Мобильное меню
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // Закрытие меню при клике на ссылку
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+            
+            // Плавная прокрутка
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Анимация появления элементов при скролле
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fade-in');
+                    }
+                });
+            }, observerOptions);
+            
+            // Наблюдаем за карточками возможностей
+            document.querySelectorAll('.feature-card').forEach(card => {
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>

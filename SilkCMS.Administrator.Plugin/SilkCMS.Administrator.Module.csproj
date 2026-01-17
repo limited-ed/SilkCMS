@@ -10,8 +10,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
@@ -25,22 +25,18 @@
     <ProjectReference Include="..\SilkCMS.Extentions.Core\SilkCMS.Core.Modules.csproj" />
     <ProjectReference Include="..\SilkCMS.Data\SilkCMS.Data.csproj" />
   </ItemGroup>
-
+  <!--
   <Target Name="CopyToProject" AfterTargets="AfterBuild">
     <Copy SourceFiles="$(TargetDir)$(MSBuildProjectName).dll" DestinationFolder="$(SolutionDir)SilkCMS.Web\Modules\$(MSBuildProjectName)" SkipUnchangedFiles="true" Retries="0" />
     <Message Text="Copied @(MainAssembly) to $(DEVPATH)" />
-  </Target>
+  </Target>-->
 
   <ItemGroup>
     <EmbeddedResource Include="wwwroot\**\*" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="9.0.9" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="Areas\Private\Pages\Shared\_Layout.cshtml" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="10.0.0" />
   </ItemGroup>
 
 </Project>

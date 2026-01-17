@@ -1,6 +1,6 @@
 ﻿namespace SilkCMS.Data.Identity;
 
-public class User : IdentityUser<ObjectId>
+public class User : IdentityUser
 {
 
 
