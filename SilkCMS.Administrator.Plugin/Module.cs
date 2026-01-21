@@ -18,6 +18,7 @@ public class AdministratorModule : IModule
         {
             options.Conventions.AuthorizeAreaFolder("Private", "/", "Administrator");
         });
+        services.AddSingleton<MenuBuilder.MenuBuilder>();
     }
 
     public void Configure(WebApplication app)
@@ -26,5 +27,8 @@ public class AdministratorModule : IModule
             name: "Private",
             areaName: "Private",
             pattern: "Private/{controller=Home}/{action=Index}/{id?}");
+
+        var mb = app.Services.GetService<MenuBuilder.MenuBuilder>();
+        mb.AddGroup(new () { Id = 1, Title =  "Administration" });
     }
 }

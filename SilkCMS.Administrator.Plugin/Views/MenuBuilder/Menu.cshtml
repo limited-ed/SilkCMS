@@ -1,0 +1,7 @@
+@using SilkCMS.Administrator.Plugin.MenuBuilder
+@inject MenuBuilder builder
+
+@foreach (var group in builder.Groups)
+{
+    <h4>@group.Title</h4>
+}
