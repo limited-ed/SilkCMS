@@ -485,3 +485,7 @@ $RECYCLE.BIN/
 .vscode/
 .vs/
 *.litedb
+app.db-shm
+app.db
+app.db-wal
+app.db

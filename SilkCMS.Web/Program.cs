@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.Extensions.FileProviders;
+using SilkCMS.Core.FileProviders;
 using SilkCMS.Web.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,8 +34,8 @@ builder.Services.AddLocalization(options => options.ResourcesPath = "Resources")
 var path = Path.Combine(Environment.CurrentDirectory, builder.Configuration["Modules:Path"]);
 builder.Services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
     .AddModularity(path, builder.Configuration);
-builder.Services.AddEmbeddedFiles();
 
+builder.Services.AddEmbeddedFiles();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddGoogle(googleOptions =>
 {
     googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
@@ -47,8 +49,15 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddIdentity<User, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
-
-builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+builder.Services.Configure<RazorViewEngineOptions>(options =>
+{
+    options.ViewLocationFormats.Add("/Database/{0}"+RazorViewEngine.ViewExtension);
+});
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation(options =>
+{
+    var context=builder.Services.BuildServiceProvider().GetService<ApplicationDbContext>();
+    options.FileProviders.Add(new DbFileProvider(context));
+});
 builder.Services.AddRazorPages();
 builder.Services.AddModules();
 builder.Services.ConfigureApplicationCookie(options =>

@@ -5,23 +5,16 @@ namespace SilkCMS.Administrator.Plugin.MenuBuilder;
 public class MenuBuilder
 {
 
-    private List<MenuGroup> _groups;
+    private List<MenuItem> _groups=new();
 
-    public IReadOnlyList<MenuGroup> Groups => _groups.AsReadOnly();
+    public IReadOnlyList<MenuItem> Groups => _groups.AsReadOnly();
 
-    public MenuBuilder AddGroup(MenuGroup group)
+    public MenuBuilder AddItems(IEnumerable<MenuItem> items)
     {
-        _groups.Add(group);
+        _groups.AddRange(items);
         return this;
     }
-    
-    public List<MenuGroup> GetGroups()
-    {
-        return new List<MenuGroup>()
-        {
-            new() { Id = 1, Title = "General" },
-            new() { Id = 2, Title = "Administrator" }
-        };
-    }
+   
+
     
 }

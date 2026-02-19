@@ -2,7 +2,7 @@ namespace SilkCMS.Administrator.Plugin.Data.Menu;
 
 public class MenuItem
 {
-    public int Id { get; set; }
+    public int Order { get; set; }
     public string Title { get; set; }
     public bool IsSeparator { get; set; }
     public bool IsHeader { get; set; }

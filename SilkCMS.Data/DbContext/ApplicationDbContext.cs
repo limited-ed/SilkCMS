@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SilkCMS.Data.Identity;
+using SilkCMS.Data.Models.Views;
 
 namespace SilkCMS.Web.Data;
 
@@ -16,5 +17,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
     {
         base.OnModelCreating(builder);
     }
+
+    public DbSet<View> Views { get; set; }
 
 }
