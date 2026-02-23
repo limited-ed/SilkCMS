@@ -8052,6 +8052,7 @@ textarea.form-control-lg {
   background: var(--cui-sidebar-bg);
   box-shadow: none;
   transition: margin-left 0.15s, margin-right 0.15s, box-shadow 0.075s, transform 0.15s, width 0.15s, z-index 0s ease 0.15s;
+  --cui-sidebar-bg: var(--cui-blue);
 }
 @media (prefers-reduced-motion: reduce) {
   .sidebar {
@@ -8366,6 +8367,8 @@ textarea.form-control-lg {
   overflow-x: hidden;
   overflow-y: auto;
   list-style: none;
+  --cui-tertiary-color: rgba(255, 255, 255, 0.78);
+  --cui-sidebar-nav-link-hover-bg: color-mix(in srgb, black 20%, var(--cui-sidebar-bg));
 }
 .sidebar-nav .nav-item + .nav-item,
 .sidebar-nav .nav-item + .nav-group,
@@ -14379,6 +14382,11 @@ textarea.form-control-lg {
     transition: none;
   }
 }
+.sidebar-nav .nav-separator {
+  border-top: 1px solid var(--cui-sidebar-nav-link-color);
+  margin-block: 0.5rem;
+  height: 1px;
+}
 
 .header > .container-fluid,
 .sidebar-header {
@@ -14411,6 +14419,9 @@ textarea.form-control-lg {
 
 [data-coreui-theme=dark] body {
   background-color: var(--cui-dark-bg-subtle);
+}
+[data-coreui-theme=dark] .sidebar {
+  --cui-sidebar-bg: var(--cui-body-bg);
 }
 [data-coreui-theme=dark] .footer {
   --cui-footer-bg: var(--cui-body-bg);
