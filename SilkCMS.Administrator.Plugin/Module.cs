@@ -41,7 +41,7 @@ public class AdministratorModule : IModule
             },
             new() { Order = 1, Title = "Media", Icon="lni-paperclip-1", Children =
                 [
-                    new() { Order = 1, Title = "Media gallery" },
+                    new() { Order = 1, Title = "Media gallery", Link = "/private/media"},
                     new() { Order = 2, Title = "Upload media" },
                 ]
             },

@@ -24,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SilkCMS.Extentions.Core\SilkCMS.Core.Modules.csproj" />
     <ProjectReference Include="..\SilkCMS.Data\SilkCMS.Data.csproj" />
+    <ProjectReference Include="..\SilkCMS.Localization\SilkCMS.Localization.csproj" />
   </ItemGroup>
   <!--
   <Target Name="CopyToProject" AfterTargets="AfterBuild">
@@ -37,6 +38,14 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Private\Views\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="Areas\Private\Views\Media\Index.cshtml" />
   </ItemGroup>
 
 </Project>

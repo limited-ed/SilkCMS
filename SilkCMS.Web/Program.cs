@@ -10,7 +10,9 @@ using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.FileProviders;
+using SilkCMS.Core.ControllerModelConversion;
 using SilkCMS.Core.FileProviders;
+using SilkCMS.Localization;
 using SilkCMS.Web.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,7 +34,12 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
 var path = Path.Combine(Environment.CurrentDirectory, builder.Configuration["Modules:Path"]);
-builder.Services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+builder.Services
+    .AddMvc(options =>
+    {
+        options.Conventions.Add(new PrivateControllerModelConversion());    
+    })
+    .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
     .AddModularity(path, builder.Configuration);
 
 builder.Services.AddEmbeddedFiles();
@@ -53,7 +60,12 @@ builder.Services.Configure<RazorViewEngineOptions>(options =>
 {
     options.ViewLocationFormats.Add("/Database/{0}"+RazorViewEngine.ViewExtension);
 });
-builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation(options =>
+builder.Services.AddControllersWithViews()
+    .AddDataAnnotationsLocalization(opt =>
+    {
+        opt.DataAnnotationLocalizerProvider = (type, factory) => factory.Create(typeof(LocalizationResource));
+    })
+    .AddRazorRuntimeCompilation(options =>
 {
     var context=builder.Services.BuildServiceProvider().GetService<ApplicationDbContext>();
     options.FileProviders.Add(new DbFileProvider(context));
@@ -120,7 +132,6 @@ app.UseRequestLocalization(new RequestLocalizationOptions
 });
 
 app.UseStaticFiles();
-
 app.UseRouting();
 
 app.UseAuthorization();
@@ -128,8 +139,13 @@ app.UseAuthorization();
 app.UseModules();
 
 app.MapControllerRoute(
+    name: "areaRoute",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}"
+);
 
 app.MapRazorPages();
 
