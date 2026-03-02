@@ -37,4 +37,9 @@
     <Folder Include="Views\Shared\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Areas\Private\Pages\Shared\_Layout.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Private\Pages\Shared\_Layout2.cshtml" />
+  </ItemGroup>
+
 </Project>
